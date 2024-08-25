@@ -14,6 +14,7 @@ import numpy as np
 import hashlib
 import json
 from .flags import flags
+from .reverse_geocoder import ReverseGeocoder
 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)-5.5s] [%(name)-12.12s]: %(message)s')
@@ -311,6 +312,9 @@ class Geocode():
     def get_arguments_hash(self):
         geocode_args = [str(self.min_population_cutoff), str(self.large_city_population_cutoff)] + self.location_types
         return hashlib.sha256(','.join(geocode_args).encode()).hexdigest()[:15]
+
+    def build_reverse_geocoder(self):
+        return ReverseGeocoder(self.geo_data)
 
     # private
 
